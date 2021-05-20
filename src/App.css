@@ -7,9 +7,45 @@
 
 .main {
   width: 75%;
-  background: unset;
+  background: url("./assets/bg.jpg") center;
+  background: linear-gradient(to btoom, rgba(0, 0, 0, 0), #020230);
 }
 
 .pyramid {
   width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.moneylist {
+  list-style: none;
+  width: 100%;
+  padding: 20px;
+}
+
+.moneyListItem {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.moneyListItem.active {
+  background-color: teal;
+}
+
+.moneyListNumber {
+  font-size: 18px;
+  font-weight: 100;
+  width: 30%;
+}
+
+.moneyListAmount {
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.moneyListItem.active {
+  background-color: teal;
 }
