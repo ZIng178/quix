@@ -1,8 +1,11 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Trivia from "./Components/Trivia";
+import Timer from "./Components/Timer";
+import Start from "./Components/Start";
 
 function App() {
+  const [username, setUserName] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(1);
   const [stop, setStop] = useState(false);
   const [earned, setEarned] = useState(" $0");
@@ -93,45 +96,58 @@ function App() {
     { id: 14, amount: "$ 500.000" },
     { id: 15, amount: "$ 1.000.000" },
   ].reverse();
+
+  useEffect(() => {
+    questionNumber > 1 &&
+      setEarned(
+        moneyPyramidData.find((m) => m.id === questionNumber - 1).amount
+      );
+  }, [moneyPyramidData, questionNumber]);
   return (
     <div className="App">
-      <div className="main">
-        {stop ? (
-          <h1> You earned : {earned}</h1>
-        ) : (
-          <>
-            <div className="top">
-              <div className="timer">30</div>
-            </div>
-
-            <div className="bottom">
-              <Trivia
-                data={data}
-                questionNumber={questionNumber}
-                setQuestionNumber={setQuestionNumber}
-                setStop={setStop}
-              />
-            </div>
-          </>
-        )}
-      </div>
-
-      <div className="pyramid">
-        <ul className="moneylist">
-          {moneyPyramidData.map((item) => (
-            <li
-              className={
-                questionNumber === item.id
-                  ? "moneyListItem active"
-                  : "moneyListItem"
-              }
-            >
-              <span className="moneyListNumber">{item.id}</span>
-              <span className="moneyListAmount">{item.amount}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {username ? (
+        <Start setUsername={setUserName} />
+      ) : (
+        <>
+          <div className="main">
+            {stop ? (
+              <h1 className="endText">You earned: {earned}</h1>
+            ) : (
+              <>
+                <div className="top">
+                  <div className="timer">
+                    <Timer setStop={setStop} questionNumber={questionNumber} />
+                  </div>
+                </div>
+                <div className="bottom">
+                  <Trivia
+                    data={data}
+                    questionNumber={questionNumber}
+                    setQuestionNumber={setQuestionNumber}
+                    setStop={setStop}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+          <div className="pyramid">
+            <ul className="moneyList">
+              {moneyPyramidData.map((m) => (
+                <li
+                  className={
+                    questionNumber === m.id
+                      ? "moneyListItem active"
+                      : "moneyListItem"
+                  }
+                >
+                  <span className="moneyListItemNumber">{m.id}</span>
+                  <span className="moneyListItemAmount">{m.amount}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
     </div>
   );
 }
