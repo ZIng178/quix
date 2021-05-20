@@ -5,6 +5,7 @@ import Trivia from "./Components/Trivia";
 function App() {
   const [questionNumber, setQuestionNumber] = useState(1);
   const [stop, setStop] = useState(false);
+  const [earned, setEarned] = useState(" $0");
 
   const data = [
     {
@@ -95,19 +96,26 @@ function App() {
   return (
     <div className="App">
       <div className="main">
-        <div className="top">
-          <div className="timer">30</div>
-        </div>
+        {stop ? (
+          <h1> You earned : {earned}</h1>
+        ) : (
+          <>
+            <div className="top">
+              <div className="timer">30</div>
+            </div>
 
-        <div className="bottom">
-          <Trivia
-            data={data}
-            questionNumber={questionNumber}
-            setQuestionNumber={setQuestionNumber}
-            setStop={setStop}
-          />
-        </div>
+            <div className="bottom">
+              <Trivia
+                data={data}
+                questionNumber={questionNumber}
+                setQuestionNumber={setQuestionNumber}
+                setStop={setStop}
+              />
+            </div>
+          </>
+        )}
       </div>
+
       <div className="pyramid">
         <ul className="moneylist">
           {moneyPyramidData.map((item) => (
